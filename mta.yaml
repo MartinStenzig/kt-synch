@@ -13,6 +13,11 @@
             - name: riz-mst-db-synch-hdi-container
               properties:
                 TARGET_CONTAINER: '~{hdi-container-name}'  # See @sap/hdi-deploy Readme.md for more details
+            - name: riz-mst-db-synch-resource-grantor
+              group: SERVICE_REPLACEMENTS
+              properties:
+                key: REMOTE_SOURCE_GRANTOR
+                service: '~{remote_source_grantor_service}'
 
         resources:
         - name: riz-mst-db-synch-hdi-container
@@ -22,3 +27,16 @@
           properties:
             hdi-container-name: ${service-name}
           type: com.sap.xs.hdi-container
+        ### !!! Comment this section out for Web IDE use
+        - name: riz-mst-db-synch-resource-grantor # Resource for the security provider
+          type: org.cloudfoundry.user-provided-service
+          properties:
+            remote_source_grantor_service: '${service-name}'
+          parameters:  # Make sure this says parameters and not properties!!!
+            path: ./user-prov-service/definition.json
+
+        ### !!! Enable this section for Web IDE Use, it is necessary to see the remote connections
+        # - name: riz-mst-db-synch-resource-grantor
+        #   type: org.cloudfoundry.existing-service
+        #   properties:
+        #      remote_source_grantor_service: '${service-name}'

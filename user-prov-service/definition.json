@@ -1,0 +1,8 @@
+{
+    "desc": "Credentials defintion for grant to riz-kt-db-synch",
+    "user": "RIZ_INNO_GRANTOR_USER",
+    "password": "RizInno345$",
+    "tags": [
+        "hana"
+    ]
+}
