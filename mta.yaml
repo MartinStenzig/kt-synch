@@ -1,0 +1,24 @@
+        ID: riz.mst.db-synch
+        _schema-version: '3.1'
+        version: 1.0.0
+
+        modules:
+        - name: riz-mst-db-synch-deployment
+          type: hdb
+          path: db
+          parameters:
+            memory: 400M                        # Out of memory error at 200M while sycnhing data, Specifying theses quotas is important as they specify how much of the assigned entitlement is assigned once the module is started
+            disk-quota: 400M
+          requires:
+            - name: riz-mst-db-synch-hdi-container
+              properties:
+                TARGET_CONTAINER: '~{hdi-container-name}'  # See @sap/hdi-deploy Readme.md for more details
+
+        resources:
+        - name: riz-mst-db-synch-hdi-container
+          parameters:
+            config:
+                schema: riz_mst_db_synch
+          properties:
+            hdi-container-name: ${service-name}
+          type: com.sap.xs.hdi-container
